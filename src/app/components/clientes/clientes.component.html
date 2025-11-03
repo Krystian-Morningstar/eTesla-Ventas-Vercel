@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Clientes</title>
+    <link rel="stylesheet" href="clientes.component.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <app-header></app-header>
+        <app-nav-bar></app-nav-bar>
+
+        <div class="clientes-container">
+            <!-- Formulario de Registro de Clientes -->
+            <div class="col-span-3 form-container">
+                <h2>Registrar Cliente</h2>
+                <form #clientForm="ngForm" (ngSubmit)="submitCliente(clientForm)" class="grid grid-cols-4 gap-4">
+                    <div class="form-group col-span-1">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" type="text" [(ngModel)]="newCliente.nombre" name="nombre" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="apellido_paterno">Apellido Paterno</label>
+                        <input id="apellido_paterno" type="text" [(ngModel)]="newCliente.apellido_paterno"
+                            name="apellido_paterno" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="apellido_materno">Apellido Materno</label>
+                        <input id="apellido_materno" type="text" [(ngModel)]="newCliente.apellido_materno"
+                            name="apellido_materno" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" type="tel" [(ngModel)]="newCliente.telefono" name="telefono" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="correo">Correo</label>
+                        <input id="correo" type="email" [(ngModel)]="newCliente.correo" name="correo" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="direccion">Dirección</label>
+                        <input id="direccion" type="text" [(ngModel)]="newCliente.direccion" name="direccion"
+                            required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="codigo_postal">Código Postal</label>
+                        <input id="codigo_postal" type="text" [(ngModel)]="newCliente.codigo_postal"
+                            name="codigo_postal" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="colonia">Colonia</label>
+                        <input id="colonia" type="text" [(ngModel)]="newCliente.colonia" name="colonia" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="ciudad">Ciudad</label>
+                        <input id="ciudad" type="text" [(ngModel)]="newCliente.ciudad" name="ciudad" required />
+                    </div>
+                    <div class="form-group col-span-1">
+                        <label for="estado">Estado</label>
+                        <input id="estado" type="text" [(ngModel)]="newCliente.estado" name="estado" required />
+                    </div>
+                    <div class="col-span-3">
+                        <button type="submit" class="submit-btn">
+                            {{ editingClienteId ? 'Actualizar Cliente' : 'Registrar Cliente' }}
+                        </button>
+                        <button *ngIf="editingClienteId" type="button" class="submit-btn cancel-btn" (click)="cancelarEdicion()">Cancelar</button>
+                    </div>
+                </form>
+
+
+                <!-- Toast Notification -->
+                <div class="toast" *ngIf="showToast" [ngClass]="{
+                                                    'success-toast': toastType === 'success',
+                                                    'error-toast': toastType === 'error',
+                                                    'delete-toast': toastType === 'delete',
+                                                    'warning-toast': toastType === 'warning'
+                                                }">
+                    <span>{{ toastMessage }}</span>
+                </div>
+            </div>
+
+            <!-- Tabla de Clientes -->
+            <div class="col-span-3 row-start-2 list-container">
+                <h2>Lista de Clientes</h2>
+                <table class="client-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Completo</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Código Postal</th>
+                            <th>Colonia</th>
+                            <th>Ciudad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let client of clients" [ngClass]="{'inactive-row': !client.activo}">
+                            <td>{{ client.nombre }} {{ client.apellido_paterno }} {{ client.apellido_materno }}</td>
+                            <td>{{ client.telefono }}</td>
+                            <td>{{ client.correo }}</td>
+                            <td>{{ client.direccion }}</td>
+                            <td>{{ client.codigo_postal }}</td>
+                            <td>{{ client.colonia }}</td>
+                            <td>{{ client.ciudad }}</td>
+                            <td>{{ client.estado }}</td>
+                            <td>
+                                <button class="action-btn edit-btn" (click)="editClient(client)">Editar</button>
+                                <button *ngIf="client.activo" class="action-btn deactivate-btn" (click)="deactivateClient(client)">Desactivar</button>
+                                <button *ngIf="!client.activo" class="action-btn reactivate-btn" (click)="reactivarCliente(client)">Reactivar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Toast Notification -->
+                <div class="toast" *ngIf="showToast" [ngClass]="{
+                                                    'success-toast': toastType === 'success',
+                                                    'error-toast': toastType === 'error',
+                                                    'delete-toast': toastType === 'delete',
+                                                    'warning-toast': toastType === 'warning'
+                                                }">
+                    <span>{{ toastMessage }}</span>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotizador eTesla</title>
+  <link rel="stylesheet" href="paneles.component.css">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <app-header></app-header>
+    <app-nav-bar></app-nav-bar>
+
+    <!-- Contenedor principal para los paneles -->
+    <main class="paneles-container">
+      <h2>Paneles Solares</h2>
+
+      <!-- Botones para cambiar vista -->
+      <div class="view-controls">
+        <button (click)="toggleView()" class="toggle-view-btn">
+          Cambiar a {{ isListView ? 'Mosaico' : 'Lista' }}
+        </button>
+
+        <!-- <select>
+          <option value="">Selecciona una Marca</option>
+          <option value="">[Marca del panel]</option>
+          <option value="">[Marca del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select>
+
+        <select>
+          <option value="">Selecciona un Origen</option>
+          <option value="">[Origen del panel]</option>
+          <option value="">[Origen del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select>
+
+        <select>
+          <option value="">Selecciona una Potencia</option>
+          <option value="">[Potencia del panel]</option>
+          <option value="">[Potencia del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select> -->
+      </div>
+
+      <!-- Vista de lista o mosaico -->
+      <div *ngIf="isListView" class="list-view">
+        <div *ngFor="let panel of paneles" class="list-item card" [ngClass]="{'panel-inactivo': !panel.activo}"
+          (click)="openModal(panel)">
+          <img [src]="panel.image" alt="Panel Image" class="panel-image">
+          <div class="panel-info">
+            <h3>{{ panel.nombre }}</h3>
+            <p><strong>Potencia:</strong> {{ panel.potencia }} W</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isListView" class="mosaic-view">
+        <div *ngFor="let panel of paneles" class="card mosaic-item" [ngClass]="{'panel-inactivo': !panel.activo}"
+          (click)="openModal(panel)">
+          <img [src]="panel.image" alt="Panel Image" class="panel-image">
+          <h3>{{ panel.nombre }}</h3>
+          <p><strong>Potencia:</strong> {{ panel.potencia }} W</p>
+        </div>
+      </div>
+
+    </main>
+
+    <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content grid grid-cols-2 grid-rows-3 gap-3" (click)="$event.stopPropagation()">
+
+        <!-- Sección de imagen -->
+        <div class="row-span-2 image-container">
+          <img [src]="selectedPanel?.image" alt="Panel Image" class="panel-image">
+        </div>
+
+        <!-- Sección de información -->
+        <div class="row-span-2 info-container">
+          <h2>{{ selectedPanel?.nombre }}</h2>
+          <p><strong>Marca:</strong> {{ selectedPanel?.nombre_marca }}</p>
+          <p><strong>Potencia:</strong> {{ selectedPanel?.potencia }} W</p>
+          <p><strong>Garantía:</strong> {{ selectedPanel?.garantia }}</p>
+          <p><strong>Origen:</strong> {{ selectedPanel?.nombre_origen }}</p>
+          <p><strong>ISC:</strong> {{ selectedPanel?.isc }}</p>
+          <p><strong>VOC:</strong> {{ selectedPanel?.voc }}</p>
+          <p><strong>VMP:</strong> {{ selectedPanel?.vmp }}</p>
+        </div>
+
+        <!-- Sección del botón -->
+        <div class="col-span-2 row-start-3 button-container">
+          <button (click)="closeModal()">Cerrar</button>
+        </div>
+        <div class="col-span-2 row-start-3 button-container">
+          <button (click)="closeModal()"> Ficha Técnica</button>
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</body>
+
+</html>

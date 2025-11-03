@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotizador eTesla</title>
+  <link rel="stylesheet" href="inversores.component.css">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <app-header></app-header>
+    <app-nav-bar></app-nav-bar>
+
+    <!-- Contenedor principal para los paneles -->
+    <main class="inversores-container">
+      <h2>Inversores</h2>
+
+      <!-- Botones para cambiar vista -->
+      <div class="view-controls">
+        <button (click)="toggleView()" class="toggle-view-btn">
+          Cambiar a {{ isListView ? 'Mosaico' : 'Lista' }}
+        </button>
+        
+        <!-- <select>
+          <option value="">Selecciona una Marca</option>
+          <option value="">[Marca del panel]</option>
+          <option value="">[Marca del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select>
+  
+        <select>
+          <option value="">Selecciona un Origen</option>
+          <option value="">[Origen del panel]</option>
+          <option value="">[Origen del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select>
+  
+        <select>
+          <option value="">Selecciona una Potencia</option>
+          <option value="">[Potencia del panel]</option>
+          <option value="">[Potencia del panel]</option>
+          <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+        </select> -->
+      </div>
+
+      <!-- Vista de lista o mosaico -->
+      <div *ngIf="isListView" class="list-view">
+        <div *ngFor="let inversor of inversores" class="list-item card" [ngClass]="{'inversor-inactivo': !inversor.activo}" 
+        (click)="openModal(inversor)">
+          <img [src]="inversor.image" alt="Inversor Image" class="inversor-image">
+          <div class="inversor-info">
+            <h3>{{ inversor.nombre }}</h3>
+            <p><strong>Potencia:</strong> {{ inversor.potencia }} W</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isListView" class="mosaic-view">
+        <div *ngFor="let inversor of inversores" class="card mosaic-item" [ngClass]="{'inversor-inactivo': !inversor.activo}" 
+        (click)="openModal(inversor)">
+          <img [src]="inversor.image" alt="Inversor Image" class="inversor-image">
+          <h3>{{ inversor.nombre }}</h3>
+          <p><strong>Potencia:</strong> {{ inversor.potencia }} W</p>
+        </div>
+      </div>
+    </main>
+
+    <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content grid grid-cols-2 grid-rows-3 gap-3" (click)="$event.stopPropagation()">
+
+        <!-- Sección de imagen -->
+        <div class="row-span-2 image-container">
+          <img [src]="selectedInversor?.image" alt="Inversor Image" class="inversor-image">
+        </div>
+
+        <!-- Sección de información -->
+        <div class="row-span-2 info-container">
+          <h2>{{ selectedInversor?.nombre }}</h2>
+          <p><strong>Marca:</strong> {{ selectedInversor?.nombre_marca }}</p>
+          <p><strong>Potencia:</strong> {{ selectedInversor?.potencia }} W</p>
+          <p><strong>Garantía:</strong> {{ selectedInversor?.garantia }}</p>
+          <p><strong>Origen:</strong> {{ selectedInversor?.nombre_origen }}</p>
+          <p><strong>Pmin:</strong> {{ selectedInversor?.pmin }}</p>
+          <p><strong>Pmax:</strong> {{ selectedInversor?.pmax }}</p>
+          <p><strong>Vmin:</strong> {{ selectedInversor?.vmin }}</p>
+          <p><strong>Vmax:</strong> {{ selectedInversor?.vmax }}</p>
+          <p><strong>ISC:</strong> {{ selectedInversor?.isc }}</p>
+        </div>
+
+        <!-- Sección del botón -->
+        <div class="col-span-2 row-start-3 button-container">
+          <button (click)="closeModal()">Cerrar</button>
+        </div>
+        <div class="col-span-2 row-start-3 button-container">
+          <button (click)="closeModal()"> Ficha Técnica</button>
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</body>
+
+</html>

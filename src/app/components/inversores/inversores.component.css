@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f4f8;
+}
+
+.inversores-container {
+    padding: 1.5em;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* Habilita el scroll vertical */
+}
+
+.inversor-inactivo {
+    background-color: #e0e0e0 !important;
+    /* Puedes ajustar el color si lo deseas */
+    filter: grayscale(0.2);
+    opacity: 0.8;
+}
+
+.view-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.toggle-view-btn {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.list-view,
+.mosaic-view {
+    display: grid;
+    gap: 1em;
+}
+
+.list-view .list-item,
+.mosaic-view .mosaic-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.list-view .list-item {
+    flex-direction: row;
+    transition: transform 0.2s ease;
+    overflow-x: none;
+}
+
+.list-view .list-item:hover {
+    transform: scale(1.01);
+    overflow-x: none;
+}
+
+/* Configuración para la vista en mosaico */
+.mosaic-view {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.mosaic-view .mosaic-item {
+    text-align: center;
+    padding: 1em;
+    transition: transform 0.2s ease;
+}
+
+.mosaic-view .mosaic-item:hover {
+    transform: scale(1.05);
+}
+
+.inversor-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1em;
+    margin-right: 1rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    gap: 1rem;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.info-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.info-container p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-container button {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}

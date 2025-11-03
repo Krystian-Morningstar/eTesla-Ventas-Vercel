@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador eTesla</title>
+    <link rel="stylesheet" href="cotizacion.component.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <app-header></app-header>
+        <app-nav-bar></app-nav-bar>
+
+        <main class="cotizacion-container">
+            <h2>Cotización</h2>
+
+            <!-- Buscador de clientes -->
+            <div class="buscador">
+                <input type="text" placeholder="Buscar cliente..." (input)="onSearch($event)" class="input-busqueda" [value]="searchValue">
+                <ul *ngIf="filteredClients.length > 0 && searchValue.length > 0" class="lista-resultados">
+                    <li *ngFor="let client of filteredClients" (click)="selectClient(client)" class="resultado-item">
+                        {{ client.nombre }} {{ client.apellido_paterno }} {{ client.apellido_materno }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tabla de información del cliente seleccionado -->
+            <div class="col-span-3 row-start-2 list-container" *ngIf="selectedClient">
+                <h2>Información del Cliente Seleccionado</h2>
+                <table class="client-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Completo</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Código Postal</th>
+                            <th>Colonia</th>
+                            <th>Ciudad</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ selectedClient.nombre }} {{ selectedClient.apellido_paterno }} {{ selectedClient.apellido_materno }}</td>
+                            <td>{{ selectedClient.telefono }}</td>
+                            <td>{{ selectedClient.correo }}</td>
+                            <td>{{ selectedClient.direccion }}</td>
+                            <td>{{ selectedClient.codigo_postal }}</td>
+                            <td>{{ selectedClient.colonia }}</td>
+                            <td>{{ selectedClient.ciudad }}</td>
+                            <td>{{ selectedClient.estado }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="!selectedClient">
+                <p>No se ha seleccionado un cliente. Por favor, utiliza el buscador para elegir uno.</p>
+            </div>
+
+            <!-- Tabla de datos de consumo energético -->
+            <div class="consumo-container">
+                <h2>Información de Consumo</h2>
+                <div class="actions">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="generarPromedio" />
+                        <span class="slider"></span>
+                        <span class="label-text">Generar Promedio</span>
+                    </label>
+                    <button class="btn">Extraer Datos</button>
+                </div>
+                <div class="bimestres">
+                    <div class="bimestre">
+                        <label for="bimestre1">Primer Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre1" placeholder="0" />
+                            <span class="unidad">kWh</span>
+                        </div>
+                    </div>
+                    <div class="bimestre">
+                        <label for="bimestre2">Segundo Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre2" placeholder="0" />
+                            <span class="unidad">kWh</span>
+                        </div>
+                    </div>
+                    <div class="bimestre">
+                        <label for="bimestre3">Tercer Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre3" placeholder="0" />
+                            <span class="unidad">kWh</span>
+                        </div>
+                    </div>
+                    <div class="bimestre">
+                        <label for="bimestre4">Cuarto Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre4" placeholder="0" />
+                            <span class="unidad">kWh</span>
+                        </div>
+                    </div>
+                    <div class="bimestre">
+                        <label for="bimestre5">Quinto Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre5" placeholder="0" />
+                            <span class="unidad">kWh</span>
+                        </div>
+                    </div>
+                    <div class="bimestre">
+                        <label for="bimestre6">Sexto Bimestre:</label>
+                        <div class="input-container">
+                            <input type="number" id="bimestre6" placeholder="0" />
+                            <span class="unidad">kh</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipo-container">
+                <h2>Selección de Equipo</h2>
+                <label for="category-select" class="form-label">Seleccionar Categoría:</label>
+                <select id="category-select" class="form-select">
+                    <option value="" disabled selected>Seleccionar Categoría</option>
+                    <option value="economico">Económico</option>
+                    <option value="recomendado">Recomendado</option>
+                    <option value="premium">Premium</option>
+                </select>
+                <div class="row mt-4">
+                    <!-- Columna de Paneles -->
+                    <div class="col">
+                        <label for="panel-busqueda" class="form-label">Buscar Panel:</label>
+                        <input id="panel-busqueda" type="text" placeholder="Buscar panel..." (input)="onPanelSearch($event)" class="input-busqueda-panel" [value]="panelSearchValue">
+                        <ul *ngIf="filteredPaneles.length > 0 && panelSearchValue.length > 0" class="lista-resultados-productos">
+                            <li *ngFor="let panel of filteredPaneles" (click)="selectPanel(panel)" class="resultado-item">
+                                {{ panel.nombre }} <span *ngIf="panel.marca">({{ panel.marca }})</span>
+                            </li>
+                        </ul>
+                        <div *ngIf="selectedPanel" class="panel-info" style="margin-top: 10px;">
+                            <strong>Panel seleccionado:</strong> {{ selectedPanel.nombre }} <span *ngIf="selectedPanel.marca">({{ selectedPanel.marca }})</span>
+                        </div>
+                    </div>
+                    <!-- Columna de Inversores -->
+                    <div class="col">
+                        <label for="inversor-busqueda" class="form-label">Buscar Inversor:</label>
+                        <input id="inversor-busqueda" type="text" placeholder="Buscar inversor..." (input)="onInversorSearch($event)" class="input-busqueda-inversor" [value]="inversorSearchValue">
+                        <ul *ngIf="filteredInversores.length > 0 && inversorSearchValue.length > 0" class="lista-resultados-productos">
+                            <li *ngFor="let inversor of filteredInversores" (click)="selectInversor(inversor)" class="resultado-item">
+                                {{ inversor.nombre }} <span *ngIf="inversor.marca">({{ inversor.marca }})</span>
+                            </li>
+                        </ul>
+                        <div *ngIf="selectedInversor" class="panel-info" style="margin-top: 10px;">
+                            <strong>Inversor seleccionado:</strong> {{ selectedInversor.nombre }} <span *ngIf="selectedInversor.marca">({{ selectedInversor.marca }})</span>
+                        </div>
+                    </div>
+                    <!-- Columna de Estructuras -->
+                    <div class="col">
+                        <label for="estructura-busqueda" class="form-label">Buscar Estructura:</label>
+                        <input id="estructura-busqueda" type="text" placeholder="Buscar estructura..." (input)="onEstructuraSearch($event)" class="input-busqueda-estructura" [value]="estructuraSearchValue">
+                        <ul *ngIf="filteredEstructuras.length > 0 && estructuraSearchValue.length > 0" class="lista-resultados-productos">
+                            <li *ngFor="let estructura of filteredEstructuras" (click)="selectEstructura(estructura)" class="resultado-item">
+                                {{ estructura.nombre }} <span *ngIf="estructura.marca">({{ estructura.marca }})</span>
+                            </li>
+                        </ul>
+                        <div *ngIf="selectedEstructura" class="panel-info" style="margin-top: 10px;">
+                            <strong>Estructura seleccionada:</strong> {{ selectedEstructura.nombre }} <span *ngIf="selectedEstructura.marca">({{ selectedEstructura.marca }})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="result-container">
+                <h2>Resultados</h2>
+                <p>Aquí se mostrarán los resultados de la cotización y se podrá generar la cotización en formato PDF.
+                </p>
+
+                <!-- Tabla de Costos -->
+                <div class="row">
+                    <!-- Tabla de Potencia -->
+                    <div class="col">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">POTENCIA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Potencia instalada</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>Costo por watt</td>
+                                    <td>...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla del Panel Seleccionado -->
+                    <div class="col">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">PANEL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Modelo</td>
+                                    <td>... </td>
+                                </tr>
+                                <tr>
+                                    <td>Potencia</td>
+                                    <td>... </td>
+                                </tr>
+                                <tr>
+                                    <td>Cantidad</td>
+                                    <td>... </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla del Inversor Seleccionado -->
+                    <div class="col">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">INVERSOR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Modelo</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>Potencia</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>Cantidad</td>
+                                    <td>...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary">
+                        Generar Cotización PDF
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <app-footer></app-footer>
+    </div>
+
+
+</body>
+
+</html>

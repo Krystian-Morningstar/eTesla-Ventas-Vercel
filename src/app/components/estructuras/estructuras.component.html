@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador eTesla</title>
+    <link rel="stylesheet" href="estructuras.component.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <app-header></app-header>
+        <app-nav-bar></app-nav-bar>
+
+        <!-- Contenedor principal para los paneles -->
+        <main class="estructuras-container">
+            <h2>Estructuras</h2>
+
+            <!-- Botones para cambiar vista -->
+            <div class="view-controls">
+                <button (click)="toggleView()" class="toggle-view-btn">
+                    Cambiar a {{ isListView ? 'Mosaico' : 'Lista' }}
+                </button>
+
+                <!-- <select>
+                    <option value="">Selecciona una Marca</option>
+                    <option value="">[Marca del panel]</option>
+                    <option value="">[Marca del panel]</option>
+                    <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+                </select>
+
+                <select>
+                    <option value="">Selecciona un Origen</option>
+                    <option value="">[Origen del panel]</option>
+                    <option value="">[Origen del panel]</option>
+                    <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+                </select>
+
+                <select>
+                    <option value="">Selecciona una Potencia</option>
+                    <option value="">[Potencia del panel]</option>
+                    <option value="">[Potencia del panel]</option>
+                    <option *ngFor="let panel " [value]="panel">{{ panel }}</option>
+                </select> -->
+            </div>
+
+            <!-- Vista de lista o mosaico -->
+            <div *ngIf="isListView" class="list-view">
+                <div *ngFor="let estructura of estructuras" class="list-item card" [ngClass]="{'estructura-inactiva': !estructura.activo}"
+                (click)="openModal(estructura)">
+                    <img [src]="estructura.image" alt="Estructura Image" class="estructura-image">
+                    <div class="estructura-info">
+                        <h3>{{ estructura.nombre }}</h3>
+                        <p><strong>Marca:</strong> {{ estructura.nombre_marca }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!isListView" class="mosaic-view">
+                <div *ngFor="let estructura of estructuras" class="card mosaic-item" [ngClass]="{'estructura-inactiva': !estructura.activo}"
+                (click)="openModal(estructura)">
+                    <img [src]="estructura.image" alt="Estructura Image" class="estructura-image">
+                    <h3>{{ estructura.nombre }}</h3>
+                    <p><strong>Marca:</strong> {{ estructura.nombre_marca }}</p>
+                </div>
+            </div>
+        </main>
+
+        <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+            <div class="modal-content grid grid-cols-2 grid-rows-3 gap-3" (click)="$event.stopPropagation()">
+
+                <!-- Sección de imagen -->
+                <div class="row-span-2 image-container">
+                    <img [src]="selectedEstructura?.image" alt="Estructura Image" class="estructura-image">
+                </div>
+
+                <!-- Sección de información -->
+                <div class="row-span-2 info-container">
+                    <h2>{{ selectedEstructura?.nombre }}</h2>
+                    <p><strong>Marca:</strong> {{ selectedEstructura?.nombre_marca }}</p>
+                    <p><strong>Garantía:</strong> {{ selectedEstructura?.garantia }}</p>
+                    <p><strong>Origen:</strong> {{ selectedEstructura?.nombre_origen }}</p>
+                </div>
+
+                <!-- Sección del botón -->
+                <div class="col-span-2 row-start-3 button-container">
+                    <button (click)="closeModal()">Cerrar</button>
+                </div>
+                <div class="col-span-2 row-start-3 button-container">
+                    <button (click)="closeModal()"> Ficha Técnica</button>
+                </div>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </div>
+</body>
+
+</html>

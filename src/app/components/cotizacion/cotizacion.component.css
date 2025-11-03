@@ -1,0 +1,405 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    /* Eliminamos cualquier margen en el html */
+    padding: 0;
+    /* Eliminamos cualquier padding en el html */
+    overflow-x: hidden;
+    /* Evita desplazamiento horizontal accidental */
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+}
+
+/* Contenido principal */
+.cotizacion-container {
+    flex: 1;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #555;
+    margin: 20px 0 10px;
+}
+
+/* Buscador */
+.buscador {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff8a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.input-busqueda {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.lista-resultados {
+    position: absolute;
+    width: 97.5%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 40px;
+}
+
+.resultado-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.resultado-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Tabla cliente */
+.list-container {
+    background-color: #ffffff8a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.client-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.client-table th,
+.client-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.client-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+}
+
+.client-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.client-table tr:hover {
+    background-color: #eaf4ff;
+    /* Color al pasar el cursor */
+}
+
+/* Espacio entre celdas */
+.client-table td {
+    vertical-align: middle;
+    /* Alinea verticalmente los datos */
+}
+
+/* Estilos específicos para el grid */
+.grid {
+    display: grid;
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-rows-2 {
+    grid-template-rows: auto auto;
+}
+
+.gap-4 {
+    gap: 16px;
+}
+
+.col-span-3 {
+    grid-column: span 4;
+}
+
+.row-start-2 {
+    grid-row-start: 3;
+}
+
+/* Tabla Consumo */
+.consumo-container {
+    background-color: #ffffff8a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-switch .slider {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toggle-switch .slider::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked+.slider {
+    background-color: #4caf50;
+}
+
+.toggle-switch input:checked+.slider::before {
+    transform: translateX(20px);
+}
+
+.toggle-switch .label-text {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.bimestres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.bimestre {
+    flex: 0 0 30%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.bimestre label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.input-container input {
+    border: none;
+    padding: 10px;
+    flex: 1;
+}
+
+.input-container input:focus {
+    outline: none;
+}
+
+.input-container .unidad {
+    background-color: #f5f5f5;
+    padding: 10px;
+    color: #888;
+}
+
+.equipo-container {
+    background-color: #ffffff8a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-select {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+/* Buscador de paneles en columna */
+.input-busqueda-panel,
+.input-busqueda-inversor,
+.input-busqueda-estructura {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.lista-resultados-productos {
+    position: absolute;
+    width: 90%;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 2px;
+    left: 0;
+}
+
+.col {
+    position: relative;
+}
+
+/* Estilo para las filas y columnas */
+.row {
+    display: flex;
+    gap: 10px;
+    /* Espacio entre las columnas */
+    margin-top: 20px;
+}
+
+.col {
+    flex: 1;
+    /* Todas las columnas toman el mismo ancho */
+}
+
+.result-container {
+    background-color: #ffffff8a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.col-12 {
+    flex: 0 0 100%;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.styled-table th {
+    background-color: #3f7dcf;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.styled-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}

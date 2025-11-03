@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador eTesla</title>
+    <link rel="stylesheet" href="home.component.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <app-header></app-header>
+        <app-nav-bar></app-nav-bar>
+
+        <main class="main-content">
+            <h2>eTesla Energias</h2>
+
+            <div class="dolar-widget">
+                <div class="dolar-header">
+                    <h4>Precio del Dólar</h4>
+                </div>
+                <div class="dolar-body">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+                        alt="USA Flag" class="flag-icon">
+                    <p><strong>$ {{ precioDolar }}</strong> MXN</p>
+                    <span class="fecha-actualizacion">{{ fechaActualizacion }}</span>
+                </div>
+            </div>
+
+        </main>
+        <app-footer></app-footer>
+    </div>
+</body>
+
+</html>
